@@ -12,7 +12,10 @@ def menu(start,chess):
         surf = pygame.Surface((800,800), pygame.SRCALPHA)
         pygame.draw.rect(surf, (0,0,0,200), (0,0,800,800))
         screen.blit(surf, (0,0))
-        text=font.render(chess.checkmate+' WINS',True,(255,255,255))
+        if chess.checkmate:
+            text=font.render(chess.checkmate+' WINS',True,(255,255,255))
+        if chess.draw:
+            text=font.render('DRAW',True,(255,255,255))
     screen.blit(text,(screen.get_width()//2-text.get_width()//2,150))
     pygame.display.flip()
     pygame.time.wait(1000)
@@ -129,12 +132,11 @@ def pause_menu():
                 if 150<=x<=650:
                     if 200<=y<=350:
                         return True, True
-                    if 450<=y<=350:
+                    if 450<=y<=600:
                         settings()
         pygame.display.flip()
 
 def settings():
-    pass
-
+   pause_menu()
 
 

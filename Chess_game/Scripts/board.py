@@ -5,7 +5,7 @@ from Scripts.config import light,dark
 
 class game():
     def __init__(self):
-        self.backboard = [[dark if (row + col) % 2 == 0 else light for col in range(8)] for row in range(8)]
+        self.backboard = [[dark if (row + col) % 2 == 1 else light for col in range(8)] for row in range(8)]
 
         top_bottom=[[rook(i,0,(0 if i else 7)),
                      knight(i,1,(0 if i else 7)),
@@ -29,6 +29,8 @@ class game():
                 if self.board[i][j]!=0:
                     self.board[i][j].rect.center=(j*100+50,i*100+50)
 
+        self.movelog=[]
+
         self.turn=0
         self.dots=[]
         self.action_piece=None
@@ -38,7 +40,7 @@ class game():
         self.red_square=None
         self.moved=False
         self.checkmate=False
-        self.stalemate=False
+        self.draw=False
 
     def select(self,row,col):
 
@@ -53,8 +55,12 @@ class game():
                 x,y = pos
             else:
                 self.red_square=None
-
+            self.movelog.append([Piece.clone_board(None,self.board),self.turn])
+            for i in range(len(self.movelog)):
+                print(self.same_pos(self.movelog[i][0],self.board,self.movelog[i][1],self.turn))
+            print()
             game_end=self.check_game_end()
+
             if self.blackincheck or self.whiteincheck:
                 self.red_square=[x,y]
                 if game_end and self.blackincheck:
@@ -63,7 +69,7 @@ class game():
                     self.checkmate='WHITE'
             else:
                 if game_end:
-                    self.stalemate=True
+                    self.draw=True
 
                 
 
@@ -96,14 +102,49 @@ class game():
                         else:
                             self.blackincheck=True
                         return j,i
-        self.blackincheck=False
-        self.whiteincheck=False
+
         return False
 
     def check_game_end(self):
+        count=0
+        for i in self.movelog:
+            if self.same_pos(i[0],self.board,i[1],self.turn):
+                count+=1
+        if count >= 3:
+            self.draw=True
+            return True
         for i in range(8):
             for j in range(8):
                 if isinstance(self.board[i][j],Piece) and self.board[i][j].colour == self.turn:
                     if self.board[i][j].check_legality(self.board,(self.board[i][j].check_possible_moves(self.board))) != []:
                         return False
+        
         return True
+    
+    def same_pos(self,oldboard,newboard,oldturn,newturn):
+        def boards_equal(boardA, boardB):
+            for i in range(8):
+                for j in range(8):
+                    a = boardA[i][j]
+                    b = boardB[i][j]
+
+                    if type(a) != type(b):
+                        return False
+
+                    if a == 0 and b == 0:
+                        continue
+
+                    if a.colour != b.colour:
+                        return False
+
+                    if hasattr(a, "moved") and a.moved != b.moved:
+                        return False
+
+                    if hasattr(a, "enpassant_target") and a.enpassant_target != b.enpassant_target:
+                        return False
+
+            return True
+
+        if boards_equal(oldboard, Piece.clone_board(None,newboard)) and oldturn==newturn:
+            return True
+        return False

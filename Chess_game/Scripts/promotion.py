@@ -43,5 +43,5 @@ def pawn_promotion(colour,x,y):
                     elif origy==7:
                         for i in range(7,3,-1):
                             if i*100<my<(i+1)*100:
-                                return options[i]
+                                return options[7-i]
                             

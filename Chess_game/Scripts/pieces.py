@@ -12,6 +12,8 @@ class Piece(pygame.sprite.Sprite):
         
         if board[y][x]==0:
             if self.type=='PAWN':
+                if self.enpassant_target == x:
+                    return True
                 return False
             if self.type in ['BISHOP','ROOK','QUEEN']:
                 return True,False
@@ -28,7 +30,21 @@ class Piece(pygame.sprite.Sprite):
 
     def move(self,board,y,x):
         if self.type=='PAWN':
+            if y-self.posy==2 or y-self.posy==-2:
+                if self.move2 and 0<=x+1<8 and isinstance(board[y][x+1],pawn):
+                    board[y][x+1].enpassant_target=x
+                if self.move2 and 0<=x-1<8 and isinstance(board[y][x-1],pawn):
+                    board[y][x-1].enpassant_target=x
+            else:
+                if x==self.enpassant_target:
+                    board[y-self.mod][x]=0
+                for i in board:
+                    for j in i:
+                        if isinstance(j,pawn):
+                            j.enpassant_target=None
+  
             self.move2=False
+
             if y==7 or y==0:
                 type=pawn_promotion(self.colour,x,y)
                 if type == 'QUEEN':
@@ -40,14 +56,20 @@ class Piece(pygame.sprite.Sprite):
                 elif type == 'BISHOP':
                     self=bishop(self.colour,self.posx,self.posy)
 
-        elif self.type == 'KING':
+        else:
+            for i in board:
+                for j in i:
+                    if isinstance(j,pawn):
+                        j.enpassant_target=None
+
+        if self.type == 'KING':
             self.moved=True
             if x-self.posx==2:
                 board[self.posy][7].move(board,self.posy,5)
             if x-self.posx==-2:
                 board[self.posy][0].move(board,self.posy,3)
 
-        elif self.type =='ROOK':
+        if self.type =='ROOK':
             self.moved=True
 
         board[self.posy][self.posx]=0
@@ -63,6 +85,14 @@ class Piece(pygame.sprite.Sprite):
     def logic_move(self,board,y,x):
         if self.type=='PAWN':
             self.move2=False
+            if y-self.posy==2 or y-self.posy==-2:
+                if self.move2 and 0<=x+1<8 and isinstance(board[y][x+1],pawn):
+                    board[y][x+1].enpassant_target=x
+                if self.move2 and 0<=x-1<8 and isinstance(board[y][x-1],pawn):
+                    board[y][x-1].enpassant_target=x
+            else:
+                if x==self.enpassant_target:
+                    board[y-self.mod][x]=0
 
         elif self.type == 'KING':
             self.moved=True
@@ -85,8 +115,9 @@ class Piece(pygame.sprite.Sprite):
         new.oppcolour = self.oppcolour
         new.posx = self.posx
         new.posy = self.posy
-        new.moved = getattr(self, "moved", False)
-        new.move2 = getattr(self, "move2", False)
+        new.moved = getattr(self, 'moved', False)
+        new.move2 = getattr(self, 'move2', False)
+        new.enpassant_target = getattr(self, 'enpassant_target', False)
         new.type = self.type
         new.mod = getattr(self,'mod',False)
         return new
@@ -154,6 +185,8 @@ class pawn(Piece):
         self.rect.center = (x*100+50,y*100+50)
         self.type='PAWN'
         self.move2=True
+        self.enpassant_target=None
+        self.enpassant=False
 
         if self.colour == 1:
             self.oppcolour=0
@@ -180,7 +213,7 @@ class pawn(Piece):
         if self.check_valid_location(board,newx,newy):
             dots.append([newx,newy])
         
-        return dots    
+        return dots
 
 
 class knight(Piece):
@@ -377,5 +410,17 @@ def is_attacked(board, x,y, bycolour):
             
         return False
     
-    return by_knight() or by_bishop() or by_rook() or by_pawn()
+    def by_king():
+        for i in range(-1,2):
+            for j in range(-1,2):
+                xcheck,ycheck=x+i,y+j
+                if i==0 and j==0:
+                    continue
+                if 0<=xcheck<8 and 0<=ycheck<8:
+                    if isinstance(board[ycheck][xcheck],king) and board[ycheck][xcheck].colour == bycolour:
+                        return True
+        return False
+
+    
+    return by_knight() or by_bishop() or by_rook() or by_pawn() or by_king()
 
