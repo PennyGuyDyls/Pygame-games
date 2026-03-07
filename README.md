@@ -1,55 +1,58 @@
 # Pygame-games
 An arcade of games coded By me in pygame
 
+
 ## 🎮 Arcade games:
-### connect 4:
+
+### Connect 4:
 - 2 player game
-- move with mouse clicks
-- win by putting a line of 4 of your pieces in a row, column or diagonal
+- Move with mouse clicks
+- Win by putting a line of 4 of your pieces in a row, column or diagonal
 
-### minesweeper:
+### Minesweeper:
 - 1 player game
-- 3 levels with a timer
-- open up squares with left click
-- flag with right click
-- win by revealing all non mine squares
+- 3 dificulty levels + timer
+- Left click to reveal
+- Right click to flag
+- Win by revealing all non-mine squares
 
-### snake:
+### Snake:
 - 1 player game
-- move with arrow keys
-- eat as many apples as you can
-- lose by hitting a wall or your own tail
+- Move with arrow keys
+- Eat apples to grow
+- Lose by hitting a wall or your own tail
 
-### pong:
+### Pong:
 - 2 player game
-- player 1 moves with w/s keys
-- player 2 moves with up/down arrow keys
-- win by getting the ball past your opponent's paddle
+- Player 1: W/S keys
+- Player 2: Up/Down arrow keys
+- Win by getting the ball past your opponent
 
-### space invaders:
+### Space invaders:
 - 1 player game
-- move with left/right arrow keys and shoot with space bar
-- rack up as many points as you can without getting shot by the aliens
-- 3 lives (and 1 extra for every wave you complete)
-- aliens get faster as the game goes on!
+- Move with left/right arrow keys, shoot with space bar
+- Avoid alien shots and survive as long as possible
+- 3 lives (plus 1 extra per completed wave)
+- Aliens get faster as the game goes on!
+
 
 ## ♟️ Chess engine:
 
 ### A full chess system complete with:
-- pieces
-- board creation + rendering
-- legal move detection
-- win and draw detection
-- extra rules of chess (e.g. en passant, promotion)
-- check detection
-- drag and drop or click to move - your choice
+- All standard chess pieces
+- Board creation and rendering
+- Legal move detection
+- Check, checkmate, and draw detection
+- Special rules (en passant, castling, promotion)
+- Drag‑and‑drop or click‑to‑move controls
+
 
 ## ▶️ How to run:
 
-1. clone repository
+1. Clone repository
 
-2. install dependencies: pip install -r requirements.txt
+2. Install dependencies: pip install -r requirements.txt
 
-3. run either:
-    - Chess_game/Main.py  -  for chess
+3. Run either:
+    - Chess_game/Main.py  -  for chess engine
     - Arcade/Launcher.py  -  for the arcade games
