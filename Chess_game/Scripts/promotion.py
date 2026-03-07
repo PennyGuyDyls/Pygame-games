@@ -1,5 +1,6 @@
 import pygame
-from Scripts.config import light, dark, pieces, screen, Cell_width
+from Scripts.config import themes,current_theme, pieces, screen, Cell_width
+light,dark=themes[current_theme]
 
 def pawn_promotion(colour,x,y):
     def show_option(piece,x,y):

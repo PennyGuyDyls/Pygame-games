@@ -1,7 +1,8 @@
 import pygame
 from Scripts.pieces import Piece
 from Scripts.UI import pause_menu,screen
-from Scripts.config import light, dark, pieces,Cell_width
+from Scripts.config import themes,current_theme, pieces,Cell_width
+light,dark=themes[current_theme]
 
 def event_handle(chess,hover):
     for event in pygame.event.get():

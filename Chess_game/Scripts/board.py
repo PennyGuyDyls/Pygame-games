@@ -1,10 +1,11 @@
 import pygame
 from Scripts.pieces import Piece, pawn, knight, bishop, rook, queen, king, is_attacked
-from Scripts.config import light,dark,Cell_width
+from Scripts.config import themes,current_theme,Cell_width
 
 
 class game():
     def __init__(self):
+        light,dark=themes[current_theme]
         self.backboard = [[dark if (row + col) % 2 == 1 else light for col in range(8)] for row in range(8)]
 
         top_bottom=[[rook(i,0,(0 if i else 7)),
@@ -87,10 +88,7 @@ class game():
 
 
     def swap_turn(self):
-        if self.turn:
-            self.turn=0
-        else:
-            self.turn=1
+        self.turn=1-self.turn
 
     def in_check(self):
         self.blackincheck=False

@@ -1,6 +1,6 @@
 import pygame
 
-Cell_width=200
+Cell_width=100
 
 screen=pygame.display.set_mode((Cell_width*8,Cell_width*8))
 
@@ -19,8 +19,21 @@ move_sound.set_volume(0.4)
 capture_sound = pygame.mixer.Sound(SFX_DIR + 'Capture.wav')
 capture_sound.set_volume(0.8)
 
-light=(150,255,150)
-dark=(100,255,100)
+themes=[((150,255,150),(100,255,100)), #green
+    ((240,217,181), (181,136,99)),     #wood
+    ((200,200,200), (120,120,120)),    #grey
+    ((180,220,255), (100,150,200)),    #ice blue
+    ((255,180,180), (200,60,60)),      #lava
+    ((170,200,150), (90,120,80)),      #camo
+    ((210,180,230), (140,100,170)),    #purple
+    ((80,80,80), (40,40,40)),          #dust
+    ((230,245,255), (80,200,220))      #cyan
+]
+current_theme=0
+
+
+
+
 grey=(0,0,0,150)
 red=(255,0,0)
 

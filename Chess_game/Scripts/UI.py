@@ -2,6 +2,7 @@ import pygame
 from Scripts.pieces import Piece
 from Scripts.config import screen,grey,red,Cell_width
 from Scripts.button import button
+
 def overlay():
     surf = pygame.Surface((8*Cell_width,8*Cell_width), pygame.SRCALPHA)
     pygame.draw.rect(surf, (0,0,0,200), (0,0,8*Cell_width,8*Cell_width))
@@ -59,6 +60,10 @@ def show(chess):
         pygame.draw.circle(surf, (grey), (Cell_width/2,Cell_width/2), Cell_width/5)
         screen.blit(surf, (x*Cell_width,y*Cell_width))
 
+    from Scripts.config import themes,current_theme
+    light,dark=themes[current_theme]
+    chess.backboard = [[dark if (row + col) % 2 == 1 else light for col in range(8)] for row in range(8)]
+
     for i in range(8):
         for j in range(8):
             pygame.draw.rect(screen,chess.backboard[i][j],(j*Cell_width,i*Cell_width , Cell_width, Cell_width))
@@ -105,6 +110,38 @@ def pause_menu():
         pygame.display.flip()
 
 def settings():
-   pass
+    import Scripts.config as config
+
+    def draw_preview(light, dark, x, y, size):
+        for i in range(2):
+            for j in range(2):
+                colour = light if (i+j) % 2 == 0 else dark
+                pygame.draw.rect(screen, colour, (x + j*size, y + i*size, size, size))
+
+    screen.fill((0,0,0)) 
+
+    buttons = []
+    for i in range(len(config.themes)):
+        buttons.append(button(Cell_width, (i%3)*250+50, (i//3)*250+50, 200, 200, None, None, None))
+        light,dark=config.themes[i]
+        draw_preview(light,dark, (i%3)*2.5*Cell_width+Cell_width/2, (i//3)*2.5*Cell_width+Cell_width/2, Cell_width)
+
+    pygame.display.flip()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x,y=pygame.mouse.get_pos()
+                for i in range(len(config.themes)):
+                    if buttons[i].clicked(x,y):
+                        config.current_theme = i
+                        return None
+
+
+    
+
+
+
+
 
 
