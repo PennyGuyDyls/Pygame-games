@@ -1,8 +1,10 @@
 import pygame
 from Scripts.config import themes,current_theme, pieces, screen, Cell_width
-light,dark=themes[current_theme]
+
 
 def pawn_promotion(colour,x,y):
+    from Scripts.config import themes,current_theme
+    light,dark=themes[current_theme]
     def show_option(piece,x,y):
         if piece == 'QUEEN':
             img=pieces[colour][4]
@@ -13,7 +15,7 @@ def pawn_promotion(colour,x,y):
         elif piece == 'BISHOP':
             img=pieces[colour][2]
 
-        pygame.draw.rect(screen,(dark if (x + y) % 2 == 0 else light),(x*Cell_width,y*Cell_width,Cell_width,Cell_width))
+        pygame.draw.rect(screen,(light if (x + y) % 2 == 0 else dark),(x*Cell_width,y*Cell_width,Cell_width,Cell_width))
         screen.blit(img,(x*Cell_width+Cell_width/2-img.get_width()//2,y*Cell_width+Cell_width/2-img.get_height()//2))
 
     origy=y
