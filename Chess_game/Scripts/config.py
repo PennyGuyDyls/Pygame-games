@@ -1,15 +1,17 @@
 import pygame
 
-screen=pygame.display.set_mode((800,800))
+Cell_width=200
+
+screen=pygame.display.set_mode((Cell_width*8,Cell_width*8))
 
 pygame.mixer.init()
 
 IMG_DIR='Chess_game/Images/'
 pieces_orig=[[pygame.image.load(f'{IMG_DIR}Piece{i}.{j}.png') for i in range(1,7)] for j in range(1,3)]
-pieces=[[pygame.transform.scale(j,(80,85)) for j in i] for i in pieces_orig]
+pieces=[[pygame.transform.scale(j,(80*Cell_width/100,85*Cell_width/100)) for j in i] for i in pieces_orig]
 for i in range(2):
-    pieces[i][0]=pygame.transform.scale(pieces_orig[i][0],(60,70))
-    pieces[i][3]=pygame.transform.scale(pieces_orig[i][3],(70,80))
+    pieces[i][0]=pygame.transform.scale(pieces_orig[i][0],(60*Cell_width/100,70*Cell_width/100))
+    pieces[i][3]=pygame.transform.scale(pieces_orig[i][3],(70*Cell_width/100,80*Cell_width/100))
 
 SFX_DIR='Chess_game/Sounds/'
 move_sound = pygame.mixer.Sound(SFX_DIR+'Move.wav')
@@ -21,3 +23,4 @@ light=(150,255,150)
 dark=(100,255,100)
 grey=(0,0,0,150)
 red=(255,0,0)
+

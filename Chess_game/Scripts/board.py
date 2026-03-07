@@ -1,6 +1,6 @@
 import pygame
 from Scripts.pieces import Piece, pawn, knight, bishop, rook, queen, king, is_attacked
-from Scripts.config import light,dark
+from Scripts.config import light,dark,Cell_width
 
 
 class game():
@@ -27,7 +27,7 @@ class game():
         for i in range(8):
             for j in range(8):
                 if self.board[i][j]!=0:
-                    self.board[i][j].rect.center=(j*100+50,i*100+50)
+                    self.board[i][j].rect.center=(j*Cell_width+Cell_width/2,i*Cell_width+Cell_width/2)
 
         self.movelog=[]
         self.turn=0

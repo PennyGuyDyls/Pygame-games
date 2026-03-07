@@ -1,7 +1,7 @@
 import pygame
 from Scripts.pieces import Piece
 from Scripts.UI import pause_menu,screen
-from Scripts.config import light, dark, pieces
+from Scripts.config import light, dark, pieces,Cell_width
 
 def event_handle(chess,hover):
     for event in pygame.event.get():
@@ -10,7 +10,7 @@ def event_handle(chess,hover):
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mx,my = pygame.mouse.get_pos()
-            row,col=my//100,mx//100
+            row,col=my//Cell_width,mx//Cell_width
             chess.select(row,col)
             if chess.moved:
                 return True,False
@@ -21,7 +21,7 @@ def event_handle(chess,hover):
                 
         elif event.type == pygame.MOUSEBUTTONUP and hover:
             mx,my = pygame.mouse.get_pos()
-            row,col=my//100,mx//100
+            row,col=my//Cell_width,mx//Cell_width
             if isinstance(chess.action_piece,Piece):
                 chess.action_piece.cancel_follow()
             chess.select(row,col)
@@ -34,9 +34,9 @@ def event_handle(chess,hover):
 
         elif event.type == pygame.KEYDOWN:
             if event.key==pygame.K_ESCAPE:
-                pause_menu()
+                
                 if isinstance(chess.action_piece,Piece):
                     chess.action_piece.cancel_follow()
-                return True,False
+                return pause_menu()
             
     return True,hover

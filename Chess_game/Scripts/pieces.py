@@ -1,5 +1,5 @@
 import pygame
-from Scripts.config import pieces,move_sound,capture_sound
+from Scripts.config import pieces,move_sound,capture_sound,Cell_width
 from Scripts.promotion import pawn_promotion
 
 class Piece(pygame.sprite.Sprite):
@@ -74,7 +74,7 @@ class Piece(pygame.sprite.Sprite):
 
         board[self.posy][self.posx]=0
         self.posx,self.posy=x,y
-        self.rect.center = (x*100+50,y*100+50)
+        self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
         if isinstance(board[y][x],Piece):
             capture_sound.play()
         else:
@@ -172,7 +172,7 @@ class Piece(pygame.sprite.Sprite):
         self.rect.center = (x,y)
 
     def cancel_follow(self):
-        self.rect.center = (self.posx*100+50,self.posy*100+50)
+        self.rect.center = (self.posx*Cell_width+Cell_width/2,self.posy*Cell_width+Cell_width/2)
 
 
 class pawn(Piece):
@@ -182,7 +182,7 @@ class pawn(Piece):
         self.posx,self.posy=x,y
         self.image=pieces[colour][0]
         self.rect = self.image.get_rect()
-        self.rect.center = (x*100+50,y*100+50)
+        self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
         self.type='PAWN'
         self.move2=True
         self.enpassant_target=None
@@ -223,7 +223,7 @@ class knight(Piece):
         self.posx,self.posy=x,y
         self.image=pieces[colour][1]
         self.rect = self.image.get_rect()
-        self.rect.center = (x*100+50,y*100+50)
+        self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
         self.type='KNIGHT'
 
         if self.colour == 1:
@@ -248,7 +248,7 @@ class bishop(Piece):
         self.posx,self.posy=x,y
         self.image=pieces[colour][2]
         self.rect = self.image.get_rect()
-        self.rect.center = (x*100+50,y*100+50)
+        self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
         self.type='BISHOP'
 
         if self.colour == 1:
@@ -266,7 +266,7 @@ class rook(Piece):
         self.posx,self.posy=x,y
         self.image=pieces[colour][3]
         self.rect = self.image.get_rect()
-        self.rect.center = (x*100+50,y*100+50)
+        self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
         self.type='ROOK'
         self.moved=False
 
@@ -285,7 +285,7 @@ class queen(Piece):
         self.posx,self.posy=x,y
         self.image=pieces[colour][4]
         self.rect = self.image.get_rect()
-        self.rect.center = (x*100+50,y*100+50)
+        self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
         self.type='QUEEN'
 
         if self.colour == 1:
@@ -303,7 +303,7 @@ class king(Piece):
         self.posx,self.posy=x,y
         self.image=pieces[colour][5]
         self.rect = self.image.get_rect()
-        self.rect.center = (x*100+50,y*100+50)
+        self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
         self.type='KING'
         self.moved=False
 

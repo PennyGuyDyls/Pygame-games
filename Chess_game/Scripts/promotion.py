@@ -1,6 +1,5 @@
 import pygame
-from Scripts.config import light, dark, pieces, screen
-
+from Scripts.config import light, dark, pieces, screen, Cell_width
 
 def pawn_promotion(colour,x,y):
     def show_option(piece,x,y):
@@ -13,13 +12,13 @@ def pawn_promotion(colour,x,y):
         elif piece == 'BISHOP':
             img=pieces[colour][2]
 
-        pygame.draw.rect(screen,(dark if (x + y) % 2 == 0 else light),(x*100,y*100,100,100))
-        screen.blit(img,(x*100+50-img.get_width()//2,y*100+50-img.get_height()//2))
+        pygame.draw.rect(screen,(dark if (x + y) % 2 == 0 else light),(x*Cell_width,y*Cell_width,Cell_width,Cell_width))
+        screen.blit(img,(x*Cell_width+Cell_width/2-img.get_width()//2,y*Cell_width+Cell_width/2-img.get_height()//2))
 
     origy=y
 
-    surf = pygame.Surface((800,800), pygame.SRCALPHA)
-    pygame.draw.rect(surf, (0,0,0,200), (0,0,800,800))
+    surf = pygame.Surface((8*Cell_width,8*Cell_width), pygame.SRCALPHA)
+    pygame.draw.rect(surf, (0,0,0,200), (0,0,8*Cell_width,8*Cell_width))
     screen.blit(surf, (0,0))
 
     options=['QUEEN','KNIGHT','ROOK','BISHOP']
@@ -35,13 +34,13 @@ def pawn_promotion(colour,x,y):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx,my=pygame.mouse.get_pos()
-                if x*100<mx<(x+1)*100:
+                if x*Cell_width<mx<(x+1)*Cell_width:
                     if origy==0:
                         for i in range(4):
-                            if i*100<my<(i+1)*100:
+                            if i*Cell_width<my<(i+1)*Cell_width:
                                 return options[i]
                     elif origy==7:
                         for i in range(7,3,-1):
-                            if i*100<my<(i+1)*100:
+                            if i*Cell_width<my<(i+1)*Cell_width:
                                 return options[7-i]
                             

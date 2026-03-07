@@ -1,6 +1,11 @@
 import pygame
 from Scripts.pieces import Piece
-from Scripts.config import screen,grey,red
+from Scripts.config import screen,grey,red,Cell_width
+from Scripts.button import button
+def overlay():
+    surf = pygame.Surface((8*Cell_width,8*Cell_width), pygame.SRCALPHA)
+    pygame.draw.rect(surf, (0,0,0,200), (0,0,8*Cell_width,8*Cell_width))
+    screen.blit(surf, (0,0))
 
 
 def menu(start,chess):
@@ -8,73 +13,57 @@ def menu(start,chess):
     if start:
         text=font.render('CHESS',True,(255,255,255))
     else:
-        surf = pygame.Surface((800,800), pygame.SRCALPHA)
-        pygame.draw.rect(surf, (0,0,0,200), (0,0,800,800))
-        screen.blit(surf, (0,0))
+        overlay()
         if chess.checkmate:
             text=font.render(chess.checkmate+' WINS',True,(255,255,255))
         if chess.draw:
             text=font.render('DRAW',True,(255,255,255))
-    screen.blit(text,(screen.get_width()//2-text.get_width()//2,150))
+    screen.blit(text,(screen.get_width()//2-text.get_width()//2,Cell_width*1.5))
     pygame.display.flip()
     pygame.time.wait(1000)
 
-
-    stcolour=(0,200,0)
-    excolour=(200,0,0)
     font=pygame.font.SysFont(None, 85)
     if start:
-        sttext=font.render('START',True,(255,255,255))
+        sttext='START'
     else:
-        sttext=font.render('REMATCH',True,(255,255,255))
-    extext=font.render('LEAVE',True,(255,255,255))
+        sttext='REMATCH'
+    extext='LEAVE'
+
+    startbutton=button(Cell_width, 50, 450, 300, 200, sttext, (0,200,0), (0,255,0))
+    exitbutton=button(Cell_width, 450,450, 300, 200, extext, (200,0,0), (255,0,0))
+
     while True:
 
-        pygame.draw.rect(screen, stcolour, (50,450, 300,200))
-        screen.blit(sttext,(screen.get_width()//2-sttext.get_width()//2-200,550-sttext.get_height()//2))
-
-        pygame.draw.rect(screen, excolour, (450,450, 300,200))
-        screen.blit(extext,(screen.get_width()//2-extext.get_width()//2+200,550-extext.get_height()//2))
+        startbutton.draw(screen)
+        exitbutton.draw(screen)
             
         pygame.display.flip()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
                 return False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
-                if 450<=my<=650:
-                    if 50<=mx<=350:
-                        return True
-                    elif 450<=mx<=750:
-                        return False
+                if startbutton.clicked(mx,my):
+                    return True
+                if exitbutton.clicked(mx,my):
+                    return False
             elif event.type == pygame.MOUSEMOTION:
                 mx, my = pygame.mouse.get_pos()
-                if 450<=my<=650:
-                    if 50<=mx<=350:
-                        stcolour=(0,255,0)
-                    else:
-                        stcolour=(0,200,0)
-                    if 450<=mx<=750:
-                        excolour=(255,0,0)
-                    else:
-                        excolour=(200,0,0)
-                else:
-                    stcolour=(0,200,0)
-                    excolour=(200,0,0)
+                startbutton.update(mx,my)
+                exitbutton.update(mx,my)
 
 def show(chess):
     def draw_dot(x,y):
-        surf = pygame.Surface((100, 100), pygame.SRCALPHA)
-        pygame.draw.circle(surf, (grey), (50,50), 20)
-        screen.blit(surf, (x*100,y*100))
+        surf = pygame.Surface((Cell_width, Cell_width), pygame.SRCALPHA)
+        pygame.draw.circle(surf, (grey), (Cell_width/2,Cell_width/2), Cell_width/5)
+        screen.blit(surf, (x*Cell_width,y*Cell_width))
 
     for i in range(8):
         for j in range(8):
-            pygame.draw.rect(screen,chess.backboard[i][j],(j*100,i*100 , 100, 100))
+            pygame.draw.rect(screen,chess.backboard[i][j],(j*Cell_width,i*Cell_width , Cell_width, Cell_width))
     if chess.red_square!=None:
-        pygame.draw.circle(screen,red,(chess.red_square[0]*100+50,chess.red_square[1]*100+50), 48)
+        pygame.draw.circle(screen,red,(chess.red_square[0]*Cell_width+Cell_width/2,chess.red_square[1]*Cell_width+Cell_width/2), Cell_width/2-2)
     for i in range(8):
         for j in range(8):
             if chess.board[i][j]==0:
@@ -89,53 +78,33 @@ def show(chess):
         screen.blit(chess.action_piece.image,chess.action_piece.rect)
 
 def pause_menu():
-    def draw_button(y,height,label,colour):
-        pygame.draw.rect(screen, colour, (150,y, 500,height))
-        text=font.render(label,True,(255,255,255))
-        screen.blit(text,(400-text.get_width()//2,y+height//2-text.get_height()//2))
 
-    surf = pygame.Surface((800,800), pygame.SRCALPHA)
-    pygame.draw.rect(surf, (0,0,0,200), (0,0,800,800))
-    screen.blit(surf, (0,0))
+    overlay()
 
-    font = pygame.font.SysFont(None,100)
-    basecolour=(100,100,100)
-    hovercolour=(170,170,170)
-    res=basecolour
-    set=basecolour
+    resumebutton=button(Cell_width, 150,200,500,150, 'RESUME', (100,100,100), (170,170,170))
+    settingsbutton=button(Cell_width, 150,450,500,150, 'SETTINGS', (100,100,100), (170,170,170))
 
     waiting=True
     while waiting:
-        draw_button(200,150, 'RESUME',res)
-        draw_button(450,150, 'SETTINGS',set)
+        resumebutton.draw(screen)
+        settingsbutton.draw(screen)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                waiting=False
+                return False, False
             if event.type == pygame.MOUSEMOTION:
                 x,y=pygame.mouse.get_pos()
-                if 150<=x<=650:
-                    if 200<=y<=350:
-                        res=hovercolour
-                        set=basecolour
-                    elif 450<=y<=600:
-                        set=hovercolour
-                        res=basecolour
-                    else:
-                        res=basecolour
-                        set=basecolour
-                else:
-                    res=basecolour
-                    set=basecolour
+                resumebutton.update(x,y)
+                settingsbutton.update(x,y)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x,y=pygame.mouse.get_pos()
-                if 150<=x<=650:
-                    if 200<=y<=350:
-                        return True, True
-                    if 450<=y<=600:
-                        settings()
+                if resumebutton.clicked(x,y):
+                    return True,False
+                if settingsbutton.clicked(x,y):
+                    settings()
         pygame.display.flip()
 
 def settings():
-   pause_menu()
+   pass
 
 
