@@ -30,15 +30,17 @@ class game():
                     self.board[i][j].rect.center=(j*100+50,i*100+50)
 
         self.movelog=[]
-
         self.turn=0
+
         self.dots=[]
         self.action_piece=None
         self.moving=None
+        self.moved=False
+
         self.blackincheck=False
         self.whiteincheck=False
         self.red_square=None
-        self.moved=False
+        
         self.checkmate=False
         self.draw=False
 
@@ -55,10 +57,8 @@ class game():
                 x,y = pos
             else:
                 self.red_square=None
+
             self.movelog.append([Piece.clone_board(None,self.board),self.turn])
-            for i in range(len(self.movelog)):
-                print(self.same_pos(self.movelog[i][0],self.board,self.movelog[i][1],self.turn))
-            print()
             game_end=self.check_game_end()
 
             if self.blackincheck or self.whiteincheck:
@@ -83,6 +83,8 @@ class game():
             self.action_piece=self.board[row][col]
             self.dots=self.action_piece.check_possible_moves(self.board)
             self.dots=self.action_piece.check_legality(self.board,self.dots)
+
+
 
     def swap_turn(self):
         if self.turn:
@@ -137,10 +139,10 @@ class game():
                     if a.colour != b.colour:
                         return False
 
-                    if hasattr(a, "moved") and a.moved != b.moved:
+                    if hasattr(a, 'moved') and a.moved != b.moved:
                         return False
 
-                    if hasattr(a, "enpassant_target") and a.enpassant_target != b.enpassant_target:
+                    if hasattr(a, 'enpassant_target') and a.enpassant_target != b.enpassant_target:
                         return False
 
             return True

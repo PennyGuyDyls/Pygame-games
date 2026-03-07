@@ -1,5 +1,5 @@
 import pygame
-from Scripts.config import light, dark, pieces,screen
+from Scripts.config import light, dark, pieces, screen
 
 
 def pawn_promotion(colour,x,y):

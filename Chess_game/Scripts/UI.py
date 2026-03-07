@@ -3,7 +3,6 @@ from Scripts.pieces import Piece
 from Scripts.config import screen,grey,red
 
 
-
 def menu(start,chess):
     font=pygame.font.SysFont(None, 130)
     if start:

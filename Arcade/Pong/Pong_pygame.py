@@ -130,7 +130,3 @@ def run():
             elif pygame.sprite.collide_rect(ballspr,padSpr2):
                 angle=(ballspr.rect.centery - padSpr2.rect.centery)//11
 
-            
-            
-            
-run() 

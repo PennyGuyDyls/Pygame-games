@@ -391,5 +391,3 @@ def run():
             elif event.type==pygame.KEYUP:
                 if event.key in (pygame.K_RIGHT,pygame.K_LEFT):
                     direction = 0
-
-run()

@@ -17,13 +17,7 @@ while running:
 
     running,hover = event_handle(chess,hover)
 
-    if chess.checkmate:
-        show(chess)
-        pygame.display.flip()
-        pygame.time.wait(1500)
-        running=menu(False,chess)
-        chess=game()
-    elif chess.draw:
+    if chess.checkmate or chess.draw:
         show(chess)
         pygame.display.flip()
         pygame.time.wait(1500)
