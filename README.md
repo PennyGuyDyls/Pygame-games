@@ -35,21 +35,21 @@ An arcade of games coded By me in pygame
 
 ## ♟️ Chess engine:
 
-    A full chess system complete with:
-    - pieces
-    - board creation + rendering
-    - legal move detection
-    - win and draw detection
-    - extra rules of chess (e.g. en passant, promotion)
-    - check detection
-    - drag and drop or click to move - your choice
+### A full chess system complete with:
+- pieces
+- board creation + rendering
+- legal move detection
+- win and draw detection
+- extra rules of chess (e.g. en passant, promotion)
+- check detection
+- drag and drop or click to move - your choice
 
 ## ▶️ How to run:
 
-    1. clone repository
+1. clone repository
 
-    2. install dependencies: pip install -r requirements.txt
+2. install dependencies: pip install -r requirements.txt
 
-    3. run either:
-      - Chess_game/Main.py  -  for chess
-      - Arcade/Launcher.py  -  for the arcade games
+3. run either:
+    - Chess_game/Main.py  -  for chess
+    - Arcade/Launcher.py  -  for the arcade games
