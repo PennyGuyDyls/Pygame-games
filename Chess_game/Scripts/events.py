@@ -7,18 +7,18 @@ light,dark=themes[current_theme]
 def event_handle(chess,hover):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            return False,False
+            return False,None,None
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mx,my = pygame.mouse.get_pos()
             row,col=my//Cell_width,mx//Cell_width
             chess.select(row,col)
             if chess.moved:
-                return True,False
+                return True,chess,False
             else:
                 if isinstance(chess.action_piece,Piece):
                     chess.action_piece.follow(mx,my)
-                    return True,True
+                    return True,chess,True
                 
         elif event.type == pygame.MOUSEBUTTONUP and hover:
             mx,my = pygame.mouse.get_pos()
@@ -26,18 +26,16 @@ def event_handle(chess,hover):
             if isinstance(chess.action_piece,Piece):
                 chess.action_piece.cancel_follow()
             chess.select(row,col)
-            return True,False
+            return True,chess,False
             
         elif event.type == pygame.MOUSEMOTION and hover:  
             mx,my=pygame.mouse.get_pos()
-            if isinstance(chess.action_piece,Piece):
-                chess.action_piece.follow(mx,my)
+            chess.action_piece.follow(mx,my)
 
         elif event.type == pygame.KEYDOWN:
             if event.key==pygame.K_ESCAPE:
-                
                 if isinstance(chess.action_piece,Piece):
                     chess.action_piece.cancel_follow()
-                return pause_menu()
+                return pause_menu(chess),chess,False
             
-    return True,hover
+    return True,chess,hover

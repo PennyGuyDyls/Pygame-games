@@ -15,7 +15,7 @@ while running:
     show(chess)
     pygame.display.flip()
 
-    running,hover = event_handle(chess,hover)
+    running,chess,hover = event_handle(chess,hover)
 
     if chess.checkmate or chess.draw:
         show(chess)

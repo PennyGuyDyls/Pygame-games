@@ -1,5 +1,5 @@
 import pygame
-from Scripts.config import themes,current_theme, pieces, screen, Cell_width
+from Scripts.config import pieces, screen, Cell_width
 
 
 def pawn_promotion(colour,x,y):

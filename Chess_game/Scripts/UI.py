@@ -8,7 +8,6 @@ def overlay():
     pygame.draw.rect(surf, (0,0,0,200), (0,0,8*Cell_width,8*Cell_width))
     screen.blit(surf, (0,0))
 
-
 def menu(start,chess):
     font=pygame.font.SysFont(None, 130)
     if start:
@@ -60,9 +59,6 @@ def show(chess):
         pygame.draw.circle(surf, (grey), (Cell_width/2,Cell_width/2), Cell_width/5)
         screen.blit(surf, (x*Cell_width,y*Cell_width))
 
-    from Scripts.config import themes,current_theme
-    light,dark=themes[current_theme]
-    chess.backboard = [[dark if (row + col) % 2 == 1 else light for col in range(8)] for row in range(8)]
 
     for i in range(8):
         for j in range(8):
@@ -82,7 +78,7 @@ def show(chess):
     if isinstance(chess.action_piece,Piece):
         screen.blit(chess.action_piece.image,chess.action_piece.rect)
 
-def pause_menu():
+def pause_menu(chess):
 
     overlay()
 
@@ -94,9 +90,10 @@ def pause_menu():
         resumebutton.draw(screen)
         settingsbutton.draw(screen)
 
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False, False
+                return False,None
             if event.type == pygame.MOUSEMOTION:
                 x,y=pygame.mouse.get_pos()
                 resumebutton.update(x,y)
@@ -104,12 +101,46 @@ def pause_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x,y=pygame.mouse.get_pos()
                 if resumebutton.clicked(x,y):
-                    return True,False
+                    return True,chess
                 if settingsbutton.clicked(x,y):
-                    settings()
+                    return True,settings(chess)
         pygame.display.flip()
 
-def settings():
+def settings(chess):
+
+    piecebutton=button(Cell_width, 150,200,500,150, 'PIECE THEMES', (100,100,100), (170,170,170))
+    boardbutton=button(Cell_width, 150,450,500,150, 'BOARD THEMES', (100,100,100), (170,170,170))
+
+    waiting=True
+    while waiting:
+        piecebutton.draw(screen)
+        boardbutton.draw(screen)
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False,None
+            if event.type == pygame.MOUSEMOTION:
+                x,y=pygame.mouse.get_pos()
+                piecebutton.update(x,y)
+                boardbutton.update(x,y)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x,y=pygame.mouse.get_pos()
+                if piecebutton.clicked(x,y):
+                    piecesettings()
+                    for i in range(8):
+                        for j in range(8):
+                            square=chess.board[i][j]
+                            if isinstance(square,Piece):
+                                chess.board[i][j]=type(square)(square.colour,square.posx,square.posy)
+                    return chess
+                if boardbutton.clicked(x,y):
+                    return boardsettings(chess)
+        pygame.display.flip()
+    
+    
+
+def boardsettings(chess):
     import Scripts.config as config
 
     def draw_preview(light, dark, x, y, size):
@@ -130,13 +161,55 @@ def settings():
 
     while True:
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x,y=pygame.mouse.get_pos()
                 for i in range(len(config.themes)):
                     if buttons[i].clicked(x,y):
                         config.current_theme = i
-                        return None
+                        light,dark=config.themes[config.current_theme]
+                        chess.backboard = [[dark if (row + col) % 2 == 1 else light for col in range(8)] for row in range(8)]
+                        return chess
+                    
+def piecesettings():
+    import Scripts.config as config
+    def drawbuttons(btn1,btn2):
+        btn1.draw(screen)
+        btn2.draw(screen)
+        for i,img in enumerate(config.pieces_scaled[0]):
+            screen.blit(img,((i+1)*Cell_width+Cell_width/2-img.get_width()/2,Cell_width*2-img.get_height()))
 
+        for i,img in enumerate(config.pieces_scaled[2]):
+            screen.blit(img,((i+1)*Cell_width+Cell_width/2-img.get_width()/2,Cell_width*4-img.get_height()))
+
+    set1btn=button(Cell_width, 100,100,600,100, None, (100,100,100), (170,170,170))
+    set2btn=button(Cell_width, 100,300,600,100, None, (100,100,100), (170,170,170))
+
+    screen.fill((0,0,0))
+
+    waiting=True
+    while waiting:
+        drawbuttons(set1btn,set2btn)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.MOUSEMOTION:
+                x,y=pygame.mouse.get_pos()
+                set1btn.update(x,y)
+                set2btn.update(x,y)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x,y=pygame.mouse.get_pos()
+                if set1btn.clicked(x,y):
+                    config.pieces=config.pieces_scaled[0:2]
+                    return None
+                if set2btn.clicked(x,y):
+                    config.pieces=config.pieces_scaled[2:4]
+                    return None
+        pygame.display.flip()
+    
+    pygame.display.flip()
 
     
 

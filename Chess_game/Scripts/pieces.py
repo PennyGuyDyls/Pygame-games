@@ -180,6 +180,7 @@ class pawn(Piece):
         super().__init__()
         self.colour=colour
         self.posx,self.posy=x,y
+        from Scripts.config import pieces
         self.image=pieces[colour][0]
         self.rect = self.image.get_rect()
         self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
@@ -221,6 +222,7 @@ class knight(Piece):
         super().__init__()
         self.colour=colour
         self.posx,self.posy=x,y
+        from Scripts.config import pieces
         self.image=pieces[colour][1]
         self.rect = self.image.get_rect()
         self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
@@ -246,6 +248,7 @@ class bishop(Piece):
         super().__init__()
         self.colour=colour
         self.posx,self.posy=x,y
+        from Scripts.config import pieces
         self.image=pieces[colour][2]
         self.rect = self.image.get_rect()
         self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
@@ -264,6 +267,7 @@ class rook(Piece):
         super().__init__()
         self.colour=colour
         self.posx,self.posy=x,y
+        from Scripts.config import pieces
         self.image=pieces[colour][3]
         self.rect = self.image.get_rect()
         self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
@@ -283,6 +287,7 @@ class queen(Piece):
         super().__init__()
         self.colour=colour
         self.posx,self.posy=x,y
+        from Scripts.config import pieces
         self.image=pieces[colour][4]
         self.rect = self.image.get_rect()
         self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
@@ -301,6 +306,7 @@ class king(Piece):
         super().__init__()
         self.colour=colour
         self.posx,self.posy=x,y
+        from Scripts.config import pieces
         self.image=pieces[colour][5]
         self.rect = self.image.get_rect()
         self.rect.center = (x*Cell_width+Cell_width/2,y*Cell_width+Cell_width/2)
