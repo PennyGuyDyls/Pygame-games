@@ -137,8 +137,6 @@ def settings(chess):
                 if boardbutton.clicked(x,y):
                     return boardsettings(chess)
         pygame.display.flip()
-    
-    
 
 def boardsettings(chess):
     import Scripts.config as config

@@ -45,6 +45,7 @@ An arcade of games coded By me in pygame
 - Check, checkmate, and draw detection
 - Special rules (en passant, castling, promotion)
 - Drag‑and‑drop or click‑to‑move controls
+- Board themes and piece sets
 
 
 ## ▶️ How to run:
