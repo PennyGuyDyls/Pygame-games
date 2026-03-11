@@ -9,7 +9,7 @@ def overlay():
     screen.blit(surf, (0,0))
 
 def menu(start,chess):
-    font=pygame.font.SysFont(None, 130)
+    font=pygame.font.SysFont(None, int(130*Cell_width/100))
     if start:
         text=font.render('CHESS',True,(255,255,255))
     else:
@@ -155,7 +155,7 @@ def boardsettings(chess):
 
     buttons = []
     for i in range(len(config.themes)):
-        buttons.append(button(Cell_width, (i%3)*250+50, (i//3)*250+50, 200, 200, None, None, None))
+        buttons.append(button(Cell_width, (i%3)*250+50, (i//3)*250, 200, 200, None, None, None))
         light,dark=config.themes[i]
         draw_preview(light,dark, (i%3)*2.5*Cell_width+Cell_width/2, (i//3)*2.5*Cell_width+Cell_width/2, Cell_width)
 
@@ -173,7 +173,7 @@ def boardsettings(chess):
                         light,dark=config.themes[config.current_theme]
                         chess.backboard = [[dark if (row + col) % 2 == 1 else light for col in range(8)] for row in range(8)]
                         return chess
-                    
+
 def piecesettings():
     import Scripts.config as config
     def drawbuttons(btn1,btn2):

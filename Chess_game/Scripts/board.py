@@ -1,4 +1,3 @@
-import pygame
 from Scripts.pieces import Piece, pawn, knight, bishop, rook, queen, king, is_attacked
 from Scripts.config import Cell_width
 
@@ -71,20 +70,18 @@ class game():
                     self.checkmate='WHITE'
             else:
                 if game_end:
-                    self.draw=True
-
-                
-
-        elif self.board[row][col] == 0:
-            self.moved=False
-            self.action_piece=None
-            self.dots=[]
+                    self.draw=True            
 
         elif isinstance(self.board[row][col],Piece) and self.board[row][col].colour==self.turn:
             self.moved=False
             self.action_piece=self.board[row][col]
             self.dots=self.action_piece.check_possible_moves(self.board)
             self.dots=self.action_piece.check_legality(self.board,self.dots)
+
+        else:
+            self.moved=False
+            self.action_piece=None
+            self.dots=[]
 
 
 
