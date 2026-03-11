@@ -8,9 +8,12 @@ from Scripts.pieces import Piece
 pygame.init()
 
 chess=game()
+clock=pygame.time.Clock()
+
 hover = False
 running=menu(True,chess)
 while running:
+    clock.tick(60)
     
     show(chess)
     pygame.display.flip()

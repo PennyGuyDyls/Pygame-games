@@ -1,6 +1,6 @@
 import pygame
 
-Cell_width=100
+Cell_width=120
 
 screen=pygame.display.set_mode((Cell_width*8,Cell_width*8))
 

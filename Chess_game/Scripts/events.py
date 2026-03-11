@@ -7,7 +7,7 @@ light,dark=themes[current_theme]
 def event_handle(chess,hover):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            return False,None,None
+            return False,chess,None
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mx,my = pygame.mouse.get_pos()

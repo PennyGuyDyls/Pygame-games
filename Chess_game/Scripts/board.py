@@ -1,10 +1,11 @@
 import pygame
 from Scripts.pieces import Piece, pawn, knight, bishop, rook, queen, king, is_attacked
-from Scripts.config import themes,current_theme,Cell_width
+from Scripts.config import Cell_width
 
 
 class game():
     def __init__(self):
+        from Scripts.config import themes,current_theme
         light,dark=themes[current_theme]
         self.backboard = [[dark if (row + col) % 2 == 1 else light for col in range(8)] for row in range(8)]
 

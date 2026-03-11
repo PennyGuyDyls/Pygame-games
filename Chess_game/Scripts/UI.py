@@ -128,11 +128,15 @@ def settings(chess):
                 x,y=pygame.mouse.get_pos()
                 if piecebutton.clicked(x,y):
                     piecesettings()
+                    from Scripts.config import pieces
+                    piecetypes=['PAWN','KNIGHT','BISHOP','ROOK','QUEEN','KING']
                     for i in range(8):
                         for j in range(8):
                             square=chess.board[i][j]
                             if isinstance(square,Piece):
-                                chess.board[i][j]=type(square)(square.colour,square.posx,square.posy)
+                                chess.board[i][j].image=pieces[square.colour][piecetypes.index(square.type)]
+                                chess.board[i][j].rect=square.rect = square.image.get_rect()
+                                square.rect.center = (square.posx*Cell_width+Cell_width/2,square.posy*Cell_width+Cell_width/2)
                     return chess
                 if boardbutton.clicked(x,y):
                     return boardsettings(chess)

@@ -1,5 +1,5 @@
 # Pygame-games
-An arcade of games coded By me in pygame
+An arcade of games coded by me in pygame
 
 
 ## 🎮 Arcade games:
@@ -46,7 +46,7 @@ An arcade of games coded By me in pygame
 - Special rules (en passant, castling, promotion)
 - Drag‑and‑drop or click‑to‑move controls
 - Board themes and piece sets
-
+- Fully scalable board size
 
 ## ▶️ How to run:
 
