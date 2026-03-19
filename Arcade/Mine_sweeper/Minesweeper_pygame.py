@@ -261,3 +261,5 @@ def run():
     screen.blit(text, (l*20+10-text.get_width()//2,h*20+text.get_height()//2+80))
     pygame.display.flip()
     pygame.time.wait(3000)
+
+run()

@@ -107,23 +107,31 @@ def pause_menu(chess):
         pygame.display.flip()
 
 def settings(chess):
-
-    piecebutton=button(Cell_width, 150,200,500,150, 'PIECE THEMES', (100,100,100), (170,170,170))
-    boardbutton=button(Cell_width, 150,450,500,150, 'BOARD THEMES', (100,100,100), (170,170,170))
+    show(chess)
+    overlay()
+    backbutton=button(Cell_width, 150,100,500,150, 'BACK TO GAME', (100,100,100), (170,170,170))
+    boardbutton=button(Cell_width, 150,325,500,150, 'BOARD THEMES', (100,100,100), (170,170,170))
+    piecebutton=button(Cell_width, 150,550,500,150, 'PIECE THEMES', (100,100,100), (170,170,170))
+    
+    
 
     waiting=True
     while waiting:
         piecebutton.draw(screen)
         boardbutton.draw(screen)
+        backbutton.draw(screen)
 
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False,None
+            
             if event.type == pygame.MOUSEMOTION:
                 x,y=pygame.mouse.get_pos()
                 piecebutton.update(x,y)
                 boardbutton.update(x,y)
+                backbutton.update(x,y)
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x,y=pygame.mouse.get_pos()
                 if piecebutton.clicked(x,y):
@@ -138,8 +146,12 @@ def settings(chess):
                                 chess.board[i][j].rect=square.rect = square.image.get_rect()
                                 square.rect.center = (square.posx*Cell_width+Cell_width/2,square.posy*Cell_width+Cell_width/2)
                     return chess
+                
                 if boardbutton.clicked(x,y):
                     return boardsettings(chess)
+                
+                if backbutton.clicked(x,y):
+                    return False,None
         pygame.display.flip()
 
 def boardsettings(chess):
@@ -155,7 +167,7 @@ def boardsettings(chess):
 
     buttons = []
     for i in range(len(config.themes)):
-        buttons.append(button(Cell_width, (i%3)*250+50, (i//3)*250, 200, 200, None, None, None))
+        buttons.append(button(Cell_width, (i%3)*250+50, (i//3)*250, 200, 200, None, (0,0,0), (255,255,255)))
         light,dark=config.themes[i]
         draw_preview(light,dark, (i%3)*2.5*Cell_width+Cell_width/2, (i//3)*2.5*Cell_width+Cell_width/2, Cell_width)
 
@@ -185,8 +197,8 @@ def piecesettings():
         for i,img in enumerate(config.pieces_scaled[2]):
             screen.blit(img,((i+1)*Cell_width+Cell_width/2-img.get_width()/2,Cell_width*4-img.get_height()))
 
-    set1btn=button(Cell_width, 100,100,600,100, None, (100,100,100), (170,170,170))
-    set2btn=button(Cell_width, 100,300,600,100, None, (100,100,100), (170,170,170))
+    set1btn=button(Cell_width, 100,100,600,100, None, (50,50,50), (100,100,100))
+    set2btn=button(Cell_width, 100,300,600,100, None, (50,50,50), (100,100,100))
 
     screen.fill((0,0,0))
 
@@ -212,11 +224,3 @@ def piecesettings():
         pygame.display.flip()
     
     pygame.display.flip()
-
-    
-
-
-
-
-
-

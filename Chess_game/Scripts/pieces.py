@@ -84,7 +84,7 @@ class Piece(pygame.sprite.Sprite):
 
     def logic_move(self,board,y,x):
         if self.type=='PAWN':
-            self.move2=False
+            
             if y-self.posy==2 or y-self.posy==-2:
                 if self.move2 and 0<=x+1<8 and isinstance(board[y][x+1],pawn):
                     board[y][x+1].enpassant_target=x
@@ -93,6 +93,7 @@ class Piece(pygame.sprite.Sprite):
             else:
                 if x==self.enpassant_target:
                     board[y-self.mod][x]=0
+            self.move2=False
 
         elif self.type == 'KING':
             self.moved=True

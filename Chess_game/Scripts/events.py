@@ -25,7 +25,8 @@ def event_handle(chess,hover):
             row,col=my//Cell_width,mx//Cell_width
             if isinstance(chess.action_piece,Piece):
                 chess.action_piece.cancel_follow()
-            chess.select(row,col)
+            if 0<=row<8 and 0<=col<8:
+                chess.select(row,col)
             return True,chess,False
             
         elif event.type == pygame.MOUSEMOTION and hover:  

@@ -2,8 +2,6 @@ import pygame
 from Scripts.board import game
 from Scripts.UI import menu, show
 from Scripts.events import event_handle
-from Scripts.pieces import Piece
-
 
 pygame.init()
 

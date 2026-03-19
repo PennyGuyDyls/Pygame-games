@@ -127,9 +127,9 @@ def run():
                 x=0
                 y=0
               if x==4:
-                return [True,'Red',r,8-i-j,j+1]
+                return [True,'Red',r,8-i-j,j-1]
               elif y==4:
-                return [True,'Blue',b,8-i-j,j+1]
+                return [True,'Blue',b,8-i-j,j-1]
         return [False]
       
       h=check_h()
@@ -186,6 +186,7 @@ def run():
 
   running = True
   while running and not win[0]:
+    clock.tick(500)
     win = connect4.check_win()
     display()
     pygame.display.flip()
@@ -205,7 +206,7 @@ def run():
             pygame.draw.circle(screen, w, (col, row),40)
             pygame.draw.circle(screen, connect4.turn, (col, i),40)
             pygame.display.flip()
-            clock.tick(500)
+            
           connect4.turn_swap()
           pygame.event.clear(pygame.MOUSEBUTTONDOWN)
 
@@ -216,13 +217,12 @@ def run():
   if running:
     text= font.render((win[1]+" wins!"), True, win[2])
     screen.blit(text, (400, 400))
-    startx,starty=(win[3]*120+50, win[4]*120)
+    startx,starty=(win[3]*120-50, win[4]*120)
     endx,endy=startx + win[5][0], starty + win[5][1]
     pygame.draw.line(screen, win[2], (startx, starty), (endx, endy), 10)
     
     pygame.display.flip()
     pygame.time.wait(5000)
-
 
             
 
