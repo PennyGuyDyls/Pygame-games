@@ -1,10 +1,11 @@
 import pygame
 
 class button():
-    def __init__(self, scale, x,y,w,h, text, colour, hover_colour):
+    def __init__(self, scale, x,y,w,h, text, colour, hover_colour, value=None):
         sca=scale/100
         self.rect = pygame.Rect(sca*x, sca*y, sca*w, sca*h)
         self.text = text
+        self.value = value if value!=None else text
         self.colour = colour
         self.hover_colour = hover_colour
         self.current_colour = colour

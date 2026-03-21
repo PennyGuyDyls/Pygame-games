@@ -5,7 +5,7 @@ def event_handle(currentword):
     running=True
     newline=False
     for event in pygame.event.get():
-        draw_keyboard(keyboard)
+        
         if event.type==pygame.QUIT:
             running=False
             break
@@ -16,7 +16,6 @@ def event_handle(currentword):
 
             elif event.key == pygame.K_RETURN and len(currentword)==5:
                 if valid_word(currentword):
-
                     newline=True
 
             elif pygame.K_a <= event.key <= pygame.K_z and len(currentword)<5:
@@ -24,10 +23,16 @@ def event_handle(currentword):
                 currentword.append(letter)
         
         elif event.type==pygame.MOUSEBUTTONDOWN:
-            if click_keyboard(keyboard):
-                letter=click_keyboard(keyboard)
-                currentword.append(letter)
-
+            letter=click_keyboard(keyboard)
+            if letter:
+                if letter == 'ENTER' and len(currentword)==5:
+                    if valid_word(currentword):
+                        newline=True
+                elif len(currentword)!=0 and letter == 'BACKSPACE':
+                    currentword.pop(-1)   
+                elif len(letter)==1 and 'A'<=letter<='Z' and len(currentword)<5:
+                    currentword.append(letter)
+                
     return running,currentword,newline
 
     

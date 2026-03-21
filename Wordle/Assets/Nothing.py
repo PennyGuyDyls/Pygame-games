@@ -2,7 +2,7 @@ f=open('Wordle/Assets/guesses.txt','r')
 words=[]
 
 while True:
-    word=f.readline().strip()
+    word=f.readline().strip().upper()
     if word=='':
         break
     if word not in words and len(word)==5:
