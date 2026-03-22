@@ -2,10 +2,10 @@ import pygame
 from random import randint
 pygame.init()
 
-cell_width=100
+cell_width=50
 guessnum=6
 
-font=pygame.font.SysFont(None, cell_width//5)
+font=pygame.font.SysFont(None, cell_width)
 screen=pygame.display.set_mode((5*cell_width*1.1+cell_width/10,guessnum*cell_width*1.1+cell_width/10+300))
 
 LOAD_DIR='Wordle/Assets/'
